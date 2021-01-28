@@ -8,13 +8,21 @@ app.use(bodyParser.json());
 
 
 
-app.post('/api/v1/parse',(req, res) => {
+app.post('/api/v1/parse',(req:any, res:any) => {
   let data = req.body.data;
 
   let firstName = data.substr(0, data.indexOf('0'));
   let lastName = ""
   let clientId = ""
   let iteration = 0
+
+/* With the following for loop, I'm able to iterate through the data.
+The if statement handles the firstName data and iterating to add zero digits.
+
+With the else/if statement I capturing the lastName and iterating to add zero digits
+and the 2nd else statement to capure the clientId.
+*/
+
   for (let index = firstName.length; index < data.length; index++) {
     if(data.charAt(index) == "0" && iteration == 0){
       firstName +=  data.charAt(index)
@@ -38,13 +46,16 @@ app.post('/api/v1/parse',(req, res) => {
 });
 
 
-app.post('/api/v2/parse',(req, res) => {
+app.post('/api/v2/parse',(req:any, res:any) => {
   let data = req.body.data;
-  var p = req.body.p;
 
   let firstName = data.substr(0, data.indexOf('0'));
   let lastName = ""
   let clientId = ""
+
+/* With the following for loop, I'm able to capture only the characters that are after the first name.
+In the else/if I'm capturing all of the digits that are NOT zeros.
+*/
 
   for (let index = firstName.length; index < data.length; index++) {
     if(data.charAt(index).match(/[a-z]/i)){
